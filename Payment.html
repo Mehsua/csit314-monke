@@ -105,15 +105,15 @@
 
 <script>
     window.onload = function() {
-        // 1. Pull data from Session Storage instead of the URL
+        // 1. Fetching the campaign and amount via session storage
         const campaignName = sessionStorage.getItem('selectedCampaign') || params.get('campaign');
         const amount = sessionStorage.getItem('selectedAmount') || params.get('amount');
         
-        // 2. THE "BURN" STEP: Clear it immediately so it doesn't persist on next reload
+        // 2. Clear it immediately so it doesn't persist on next reload
         sessionStorage.removeItem('selectedCampaign');
         sessionStorage.removeItem('selectedAmount');
 
-        // 3. CRITICAL CHECK: If either is missing, redirect
+        // 3. If either is missing, redirect
         if (!campaignName || !amount) {
             alert("No campaign selected. Redirecting you to the main page...");
             window.location.href = 'Payment.html'; 
@@ -143,8 +143,8 @@
     };
 
     window.addEventListener('beforeunload', (e) => {
-        // We only want to warn them if they haven't finished the donation
-        // We check if the 'thankyou' view is NOT active
+        // Warn them if they haven't finished the donation
+        // Check if the 'thankyou' view is NOT active
         const thankYouView = document.getElementById('view-thankyou');
         if (thankYouView && !thankYouView.classList.contains('active')) {
             e.preventDefault();
