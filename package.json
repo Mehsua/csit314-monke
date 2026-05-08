@@ -2,9 +2,10 @@
   "name": "csit314_proj",
   "version": "1.0.0",
   "description": "",
-  "main": "donor_db.js",
+  "main": "dono_db.js",
   "scripts": {
-    "dev": "npx nodemon app.js"
+    "start": "node dono_controller.js",
+    "dev": "npx nodemon dono_controller.js"
   },
   "keywords": [],
   "author": "",
