@@ -13,3 +13,6 @@ create table dono_accounts
 insert into dono_accounts (username, password, country) values
     ("BryanWonggg", "iliketurtles67", "Saudi Arabia"),
     ("Bobby123", "12345678", "Singapore");
+
+
+--TODO: Add table for campaigns / Add table for donations
