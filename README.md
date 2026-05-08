@@ -6,4 +6,4 @@ MYSQL_PASSWORD='' //the password of your user account
 MYSQL_DATABASE='donor_site' //the name of your schema or db
 
 
-All display pages should be stored in public folder in order for express.js to work 
+All display/frontend pages + javascript should be stored in /public folder in order for express.js to work 
