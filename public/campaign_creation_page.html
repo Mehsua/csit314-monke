@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="darkmode.css">
 <style>
   .page { max-width: 580px; margin: 0 auto; padding: 2rem 1rem 4rem; }
   .header { text-align: center; margin-bottom: 2rem; }
@@ -170,6 +171,13 @@
     <button class="btn-submit" onclick="launch()">
       <i class="ti ti-rocket" aria-hidden="true"></i> Launch my campaign
     </button>
+
+<label>
+  <input type="checkbox" id="dark-toggle"> Dark mode
+</label>
+
+<script src="darkmode.js"></script>
+
   </div>
 
   <div id="success-view" class="hidden">
@@ -185,6 +193,7 @@
   </div>
 </div>
 
+<script src="darkmode.js"></script>
 <script>
   let photoDataUrl = null;
   let captchaAnswer = 0;
