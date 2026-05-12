@@ -501,7 +501,17 @@ const campaigns = [
 //   const kw = document.getElementById('search-input').value.trim();
 //   window.location.href = kw ? 'discover.html?q=' + encodeURIComponent(kw) : 'discover.html';
 // }
+function toggleFaq(btn) {
+  const item = btn.parentElement;
   
+  // Optional: Close other open items (Accordion mode)
+  document.querySelectorAll('.faq-item').forEach(i => {
+    if (i !== item) i.classList.remove('active');
+  });
+
+  // Toggle the clicked item
+  item.classList.toggle('active');
+}
 async function loadCampaigns() {
   // Get the country saved during account creation
 const savedCountry = localStorage.getItem('userCountry');
@@ -520,7 +530,7 @@ const savedCountry = localStorage.getItem('userCountry');
         const campaigns = await res.json();
 
         if (campaigns.length === 0) {
-            grid.innerHTML = `<p>No campaigns found in ${savedCountry || 'your area'}.</p>`;
+            document.getElementById('featured-grid').innerHTML = `<p>No campaigns found in ${savedCountry || 'your area'}.</p>`;
             return;
         }
     
@@ -542,19 +552,6 @@ const savedCountry = localStorage.getItem('userCountry');
     </div>
   </div>`;
 }).join('');
-
-function toggleFaq(btn) {
-  const item = btn.parentElement;
-  
-  // Optional: Close other open items (Accordion mode)
-  document.querySelectorAll('.faq-item').forEach(i => {
-    if (i !== item) i.classList.remove('active');
-  });
-
-  // Toggle the clicked item
-  item.classList.toggle('active');
-}
-
 </script>
 </body>
 </html>
