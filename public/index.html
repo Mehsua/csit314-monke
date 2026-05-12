@@ -501,6 +501,29 @@ const campaigns = [
 //   const kw = document.getElementById('search-input').value.trim();
 //   window.location.href = kw ? 'discover.html?q=' + encodeURIComponent(kw) : 'discover.html';
 // }
+  
+async function loadCampaigns() {
+  const grid = document.getElementById('featured-grid');
+  // Get the country saved during account creation
+  const savedCountry = localStorage.getItem('userCountry');
+  try {
+      // We call the backend WITHOUT a URL parameter
+      const res = await fetch("http://localhost:8080/getCampaigns", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // We send the country in a secret header instead
+          "x-user-country": savedCountry || "all"
+        }
+      });
+
+      if (!res.ok) throw new Error("Server error");
+        const campaigns = await res.json();
+
+        if (campaigns.length === 0) {
+            grid.innerHTML = `<p>No campaigns found in ${savedCountry || 'your area'}.</p>`;
+            return;
+        }
   document.getElementById('featured-grid').innerHTML = campaigns.slice(0, 3).map(c => {
   const pct  = Math.min(100, Math.round(c.raised / c.goal * 100));
   const days = Math.max(0, Math.round((new Date(c.deadline) - Date.now()) / 86400000));
