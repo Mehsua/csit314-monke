@@ -336,7 +336,66 @@ nav {
 .cta-btn:hover {
   background: var(--border);
 }
+  
+/* ── FAQ ── */
+.faq-container {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
 
+.faq-item {
+  border-bottom: 1px solid var(--border);
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-question {
+  width: 100%;
+  padding: 16px 20px;
+  background: var(--bg);
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  text-align: left;
+  transition: background 0.2s;
+}
+
+.faq-question:hover {
+  background: var(--surface);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease;
+  background: #fdfdfd;
+  color: var(--text2);
+  font-size: 13px;
+}
+
+.faq-answer p {
+  padding: 0 20px 16px 20px;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 200px; /* Adjust if answers are very long */
+}
+
+.faq-icon {
+  font-size: 18px;
+  transition: transform 0.3s;
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(45deg); /* Turns + into x */
+}
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .camp-grid {
@@ -393,6 +452,43 @@ nav {
     <a class="cta-btn" href="">Start a fundraiser</a><!-- ADD HTML HERE WHEN DONE-->
   </div>
 
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">Frequently Asked Questions</div>
+    </div>
+    <div class="faq-container">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Is my donation secure?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Yes, all transactions are encrypted and processed through secure payment gateways. We never store your full credit card details on our servers.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How do I start a fundraiser?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Simply click the "Start a fundraiser" button below, fill in your campaign details, set a goal, and share it with your community!</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Are there any fees?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>We charge a small platform fee to keep the site running, but 100% of the remaining funds go directly to the campaign organizer.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -425,6 +521,19 @@ document.getElementById('featured-grid').innerHTML = campaigns.slice(0, 3).map(c
     </div>
   </div>`;
 }).join('');
+
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  
+  // Optional: Close other open items (Accordion mode)
+  document.querySelectorAll('.faq-item').forEach(i => {
+    if (i !== item) i.classList.remove('active');
+  });
+
+  // Toggle the clicked item
+  item.classList.toggle('active');
+}
+
 </script>
 </body>
 </html>
