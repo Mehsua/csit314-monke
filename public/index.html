@@ -742,11 +742,11 @@ nav {
 </div>
 
 <script>
-const campaigns = [
-  { id:1, title:"Placeholder title",   cat:"Category", desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", raised:259, goal:1000, deadline:"2025-06-01", donors:16 },
-  { id:2, title:"Placeholder title",   cat:"Category", desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", raised:256, goal:1000, deadline:"2025-06-01", donors:16 },
-  { id:3, title:"Placeholder title",   cat:"Category", desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", raised:266, goal:1000, deadline:"2025-06-01", donors:16 },
-];
+//const campaigns = [
+  //{ id:1, title:"Placeholder title",   cat:"Category", desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", raised:259, goal:1000, deadline:"2025-06-01", donors:16 },
+  //{ id:2, title:"Placeholder title",   cat:"Category", desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", raised:256, goal:1000, deadline:"2025-06-01", donors:16 },
+  //{ id:3, title:"Placeholder title",   cat:"Category", desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", raised:266, goal:1000, deadline:"2025-06-01", donors:16 },
+//];
 // function doSearch() {
 //   const kw = document.getElementById('search-input').value.trim();
 //   window.location.href = kw ? 'discover.html?q=' + encodeURIComponent(kw) : 'discover.html';
@@ -764,44 +764,69 @@ function toggleFaq(btn) {
 }
 async function loadCampaigns() {
   // Get the country saved during account creation
-const savedCountry = localStorage.getItem('userCountry');
-  try {
+  const container = document.getElementById('featured-grid');
+  const savedCountry = localStorage.getItem('userCountry');
       // We call the backend WITHOUT a URL parameter
-      const res = await fetch("http://localhost:8080/getCampaigns", {
+      try {
+    const res = await fetch("http://localhost:8080/getCampaigns", {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
-          // We send the country in a secret header instead
-          "x-user-country": savedCountry || "all"
+            "Content-Type": "application/json",
+            "x-user-country": savedCountry || "all"
         }
-      });
+    });
 
-      if (!res.ok) throw new Error("Server error");
-        const campaigns = await res.json();
+    if (!res.ok) throw new Error("Server error");
+    const campaigns = await res.json();
+    console.log("RAW DATA FROM SERVER:", campaigns[0]);
 
-        if (campaigns.length === 0) {
-            document.getElementById('featured-grid').innerHTML = `<p>No campaigns found in ${savedCountry || 'your area'}.</p>`;
-            return;
-        }
-    
-  document.getElementById('featured-grid').innerHTML = campaigns.slice(0, 3).map(c => {
-  const pct  = Math.min(100, Math.round(c.raised / c.goal * 100));
-  const days = Math.max(0, Math.round((new Date(c.deadline) - Date.now()) / 86400000));
-  return `<div class="camp-card">
-    <div class="camp-img"></div>
-    <div class="camp-body">
-      <div class="camp-cat">${c.cat}</div>
-      <div class="camp-title" onclick="location.href='campaign.html'">${c.title}</div>
-      <div class="camp-desc">${c.desc.slice(0, 88)}…</div>
-      <div class="camp-prog-wrap"><div class="camp-prog-fill" style="width:${pct}%"></div></div>
-      <div class="camp-raised">$${c.raised.toLocaleString()} raised</div>
-      <div class="camp-meta">
-        <span>$${c.goal.toLocaleString()} goal / ${c.donors} donors</span>
-        <span>${days > 0 ? days + ' days left' : 'Ended'}</span>
-      </div>
-    </div>
-  </div>`;
-}).join('');
+    if (campaigns.length === 0) {
+        container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text3); padding: 40px;">
+            No active campaigns found in ${savedCountry || 'your area'}.
+        </p>`;
+        return;
+    }
+
+    container.innerHTML = campaigns.slice(0, 3).map(c => {
+        // BRIDGE: Fixed naming consistency
+        const raised = Number(c.raisedAmount) || 0;
+        const goal = Number(c.targetAmount) || 0; // Changed to 'goal' to match logic below
+        const donors = c.donorCount || 0; // Added this line so ${donors} works
+        const title = c.title || "Untitled Campaign";
+        const category = c.category || "General";
+        const description = c.description || "";
+
+        // Calculation Logic
+        const pct = goal > 0 ? Math.min(100, Math.round((raised / goal) * 100)) : 0;
+        const days = Math.max(0, Math.round((new Date(c.deadline) - Date.now()) / 86400000));
+
+        return `
+        <div class="camp-card">
+            <div class="camp-img">🌍</div>
+            <div class="camp-body">
+                <div class="camp-cat">${category}</div>
+                <div class="camp-title" onclick="location.href='campaign.html?id=${c.campaignID}'">${title}</div>
+                <div class="camp-desc">${description.slice(0, 88)}...</div>
+                <div class="camp-prog-wrap">
+                    <div class="camp-prog-fill" style="width:${pct}%"></div>
+                </div>
+                <div class="camp-raised">$${raised.toLocaleString()} raised</div>
+                <div class="camp-meta">
+                    <span>$${goal.toLocaleString()} goal / ${donors} donors</span>
+                    <span>${days > 0 ? days + ' days left' : 'Ended'}</span>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+  } catch (err) {
+    console.error("Fetch failed:", err);
+    container.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>Unable to load campaigns. Is the server running?</p>";
+  }
+
+}
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', loadCampaigns);
 </script>
 
 <script>
