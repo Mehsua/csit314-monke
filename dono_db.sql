@@ -13,8 +13,7 @@ create table dono_accounts
 
 -- Placeholder accounts
 insert into dono_accounts (username, password, country) values
-    ("BryanWonggg", "iliketurtles67", "Saudi Arabia"),
-    ("Bobby123", "12345678", "Singapore");
+    ("User", "1234", "Saudi Arabia");
 
 -- Admin account
 insert into dono_accounts (username, password, country, role) values
