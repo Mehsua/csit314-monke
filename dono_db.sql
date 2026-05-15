@@ -139,7 +139,7 @@ INSERT INTO Campaign
 VALUES (
 'C003',
 'Feed Hungry Children',
-'South Africa',
+'Saudi Arabia',
 'Charity',
 'Provide meals for children',
 20000.00,
@@ -152,7 +152,7 @@ INSERT INTO Campaign
 VALUES (
 'C004',
 'Flood Victim Support',
-'Nepal',
+'Saudi Arabia',
 'Disaster',
 'Help flood victims rebuild homes',
 45000.00,
