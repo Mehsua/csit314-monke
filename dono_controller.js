@@ -4,7 +4,7 @@ import cors from "cors"
 import {fileURLToPath} from "url"
 
 //IMPORTANT!!!! Remember to add your function name here in order for them to work
-import {getAccounts, createAccount, getCampaigns, getDonations} from "./dono_db.js"
+import {getAccounts, createAccount, getCampaign, getDonations} from "./dono_db.js"
 
 console.log("DB USER:", process.env.MYSQL_USER)
 console.log("DB PASS:", process.env.MYSQL_PASSWORD)

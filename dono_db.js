@@ -61,7 +61,7 @@ export async function getCampaign(country) {
         throw sqlError; 
     }
 }
-}
+
 // export async function getAccount(id)
 // {
 //     const [rows] = await pool.query
