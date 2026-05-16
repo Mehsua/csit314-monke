@@ -466,7 +466,7 @@
       <h2>Your campaign is live!</h2>
       <div class="summary">
         <img id="s-photo" class="summary-photo hidden" src="" alt="Campaign photo" />
-        <div class="summary-row"><span>Campaign ID</span><span id="s-id">—</span></div>
+        <!-- <div class="summary-row"><span>Campaign ID</span><span id="s-id">—</span></div> -->
         <div class="summary-row"><span>Title</span><span id="s-title">—</span></div>
         <div class="summary-row"><span>Category</span><span id="s-category">—</span></div>
         <div class="summary-row"><span>Goal</span><span id="s-goal">—</span></div>
@@ -560,16 +560,6 @@
     document.getElementById('cat-count').textContent = this.value.length;
   });
 
-  // Auto-generate campaign ID: 
-function generateCampaignID() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let id = 'C';
-  for (let i = 0; i < 3; i++) {
-    id += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return id; // e.g. C4X2, CA9B
-}
-
   async function launch() {
     const title = document.getElementById('title').value.trim();
     const goal = document.getElementById('goal').value;
@@ -611,14 +601,12 @@ function generateCampaignID() {
       return;
     }
 
-    const campaignID = generateCampaignID();
-/*    // For testing without backend, we can skip the fetch and directly show success
+    // For testing without backend, we can skip the fetch and directly show success
     try {
       const res = await fetch("http://localhost:8080/createCampaign", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          campaignID,
           title,
           country,
           category,
@@ -639,9 +627,8 @@ function generateCampaignID() {
       alert('Could not connect to server. Make sure the server is running.');
       return;
     }
-*/
+
     // Update success summary
-    document.getElementById('s-id').textContent = campaignID;
     document.getElementById('s-title').textContent = title;
     document.getElementById('s-category').textContent = category;
     document.getElementById('s-goal').textContent = '$' + Number(goal).toLocaleString();
