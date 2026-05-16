@@ -4,7 +4,7 @@ import cors from "cors"
 import {fileURLToPath} from "url"
 
 //IMPORTANT!!!! Remember to add your function name here in order for them to work
-import {getAccounts, createAccount, getCampaign, getDonations} from "./dono_db.js"
+import {getAccounts, createAccount, getCampaign, getDonations, createCampaign} from "./dono_db.js"
 
 console.log("DB USER:", process.env.MYSQL_USER)
 console.log("DB PASS:", process.env.MYSQL_PASSWORD)
@@ -137,6 +137,24 @@ app.get("/getCampaign", async (req, res) => {
 app.use((err, req, res, next) => {
 console.error(err.stack)
 res.status(500).send('Something broke!')
+})
+
+app.post("/createCampaign", async (req, res) => {
+    const { title, country, category, description, targetAmount, deadline, createdBy } = req.body
+
+    try {
+        if (!title || !country || !category || !description || !targetAmount || !deadline || !createdBy) {
+            return res.json({ success: false, message: "All fields are required" })
+        }
+
+        const result = await createCampaign(title, country, category, description, targetAmount, deadline, createdBy)
+
+        res.json({ success: true, message: "Campaign created!", campaign: result })
+
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ success: false, message: "Server error" })
+    }
 })
 
 app.listen(8080, () => {

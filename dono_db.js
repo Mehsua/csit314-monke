@@ -89,3 +89,18 @@ export async function getDonations() {
 
     return rows
 }
+
+
+export async function createCampaign(title, country, category, description, targetAmount, deadline, createdBy) {
+    const [rows] = await pool.query("SELECT COUNT(*) as count FROM Campaign")
+    const count = rows[0].count + 1
+    const campaignID = 'C' + String(count).padStart(3, '0') // e.g. C006
+
+    await pool.query(
+        `INSERT INTO Campaign (campaignID, title, country, category, description, targetAmount, deadline, status, createdBy)
+         VALUES (?, ?, ?, ?, ?, ?, ?, 'Open', ?)`,
+        [campaignID, title, country, category, description, targetAmount, deadline, createdBy]
+    )
+
+    return { campaignID, title }
+}
