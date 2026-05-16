@@ -5,7 +5,8 @@
   "main": "dono_db.js",
   "scripts": {
     "start": "node dono_controller.js",
-    "dev": "npx nodemon dono_controller.js"
+    "dev": "npx nodemon dono_controller.js",
+    "test123": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
