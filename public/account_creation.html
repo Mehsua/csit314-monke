@@ -33,12 +33,14 @@
 
     label {
         font-weight: bold;
+        margin-bottom: 5px;
     }
 
     input, select {
         padding: 8px;
         width: 200px;
         font-size: 14px;
+        margin-bottom: 10px;
     }
 
     select {
@@ -57,6 +59,11 @@
         text-align: center;
         border: none;
     }
+    .account-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
 
 </style>
 </head>
@@ -68,19 +75,22 @@
 </header>
 
     <div class="container">
-    
-    <label>Username:</label>
-    <input type="text" id="username">
 
-    <label>Password:</label>
-    <input type="password" id="password">
+    <form onsubmit="createAccount(event)" class="account-form">
+        
+        <label>Username:</label>
+        <input type="text" id="username">
 
-    <label>Re-enter password:</label>
-    <input type="password" id="rePassword">
+        <label>Password:</label>
+        <input type="password" id="password">
 
-    <label>Select a country:</label>
-    <select id="country">
-        <option value="" selected disabled>-no selection-</option>
+        <label>Re-enter password:</label>
+        <input type="password" id="rePassword">
+
+        <label>Select a country:</label>
+
+        <select id="country">
+            <option value="" selected disabled>-no selection-</option>
             <option>Afghanistan</option>
             <option>Albania</option>
             <option>Algeria</option>
@@ -279,15 +289,18 @@
             <option>Zimbabwe</option>
     </select>
 
-    <button class="create-btn" onclick="createAccount()">
+    <button type="submit" class="create-btn">
         Create Account
     </button>
 
-</div>
+</form>
 
 <script>
 
-async function createAccount() {
+async function createAccount(event) {
+
+    // Prevent page refresh
+    event.preventDefault()
 
     const username = document.querySelector("#username").value
     const password = document.querySelector("#password").value
@@ -311,15 +324,15 @@ async function createAccount() {
 
     if (data.success) {
         alert(data.message)
-        // SAVE the country locally so other pages can "filter" by it
+
         localStorage.setItem('userCountry', country);
-        
-        //Redirect to home page
-        window.location.href = "index.html"
+
+        window.location.href = "login.html"
     } else {
         alert(data.message)
     }
 }
+
 
 </script>
 
