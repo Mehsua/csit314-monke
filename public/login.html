@@ -34,10 +34,12 @@
         padding: 8px;
         width: 200px;
         font-size: 14px;
+        margin-bottom: 5px;
     }
 
     label {
         font-weight: bold;
+        margin-bottom: 10px;
     }
 
     .login-btn {
@@ -69,6 +71,13 @@
     .register {
         margin-top: -10px;
     }
+
+    .login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+    }
 </style>
 
 </head>
@@ -81,14 +90,19 @@
 
 <div class="container">
 
-    <label>Username:</label>
-    <input type="text" name="username">
+    <form onsubmit="login(event)" class="login-form">
+        
+        <label>Username:</label>
+        <input type="text" name="username">
 
-    <label>Password:</label>
-    <input type="password" name="password">
+        <label>Password:</label>
+        <input type="password" name="password">
 
-    <!--Auth account and direct to homepage-->
-    <button class="login-btn" onclick="login()">Login</button>
+        <!--Auth account and direct to homepage-->
+        <button type="submit" class="login-btn">Login</button>
+
+    </form>
+
     <br>
 
     <!--Direct to homepage-->    
@@ -103,7 +117,11 @@
 </div>
 
 <script>
-async function login() {
+async function login(event) {
+
+    // Prevent page refresh
+    event.preventDefault()
+
     const username = document.querySelector('input[name="username"]').value
     const password = document.querySelector('input[name="password"]').value
 
