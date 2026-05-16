@@ -10,10 +10,10 @@ function formatDate(dateString) {
     })
 }
 
-function renderCampaigns(campaigns) {
+function renderCampaign(campaign) {
     campaignList.innerHTML = ""
 
-    campaigns.forEach(campaign => {
+    campaign.forEach(campaign => {
         const div = document.createElement("div")
         div.classList.add("card")
 
@@ -52,15 +52,15 @@ function renderCampaigns(campaigns) {
     })
 }
 
-async function loadCampaigns() {
+async function loadCampaign() {
     const res = await fetch("http://localhost:8080/getCampaign")
-    const campaigns = await res.json()
+    const campaign = await res.json()
 
-    renderCampaigns(campaigns)
+    renderCampaign(campaign)
 }
 
 if (campaignList) {
-    loadCampaigns()
+    loadCampaign()
 }
 
 const donationList = document.getElementById("donation-list")
